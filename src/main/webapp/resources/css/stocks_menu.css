@@ -1,0 +1,23 @@
+#stocks_menu {
+    position: relative;
+    top: 72px;
+    left: 24px;
+    display: inline;
+    padding-right: 20px;
+}
+
+#stocks_menu menu {
+    display: inline;
+    list-style-type: none;
+}
+
+#stocks_menu menu li {display: inline;}
+
+#stocks_menu .ui-button {
+    font-size: smaller;
+    width: 48px;
+    height: 48px;
+    border: 1px solid black;
+}
+
+#stocks_menu .ui-button-text {padding: .5rem 0;}

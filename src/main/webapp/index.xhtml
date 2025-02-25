@@ -1,0 +1,250 @@
+<ui:composition template="templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="jakarta.faces.facelets">
+
+    <ui:param name="titleText" value="NYSE via Threads, ASDV"/>
+    <ui:param name="right" value="false"/>
+    <ui:param name="loginsearch" value="false"/>
+    <ui:param name="tagline" value="false"/>
+
+
+    <ui:define name="head">
+        <h:outputScript library="js" name="updater.js"/>
+        <script>
+            /**
+             * Stops running threads before unloading the page.
+             */
+            window.addEventListener("beforeunload", function f1() {
+                clearTimeout(timer);
+                beforeunload();
+            }, false);
+        </script>
+    </ui:define>
+
+    <ui:define name="extras">
+        <p:growl id="messages" showDetail="true" skipDetailIfEqualsSummary="true" redisplay="false" keepAlive="true"/>
+        <h:form>
+            <p:remoteCommand name="callRemoteCommand" actionListener="#{stockBean.updateStockInfo()}"/>
+            <p:remoteCommand name="beforeunload" actionListener="#{stockBean.stopThreads()}"/>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="title">#{titleText}</ui:define>
+    <ui:define name="logo"/>
+    <ui:define name="stocks_menu">
+        <ui:include src="templates/fragments/stocks-menu.xhtml"/>
+    </ui:define>
+
+    <ui:param name="leftWidth" value="width: 20%; min-width: 350px;"/>
+    <ui:define name="left">
+        <ui:include src="templates/fragments/stock-info.xhtml"/>
+    </ui:define>
+
+    <ui:param name="contentWidth" value="width: 80%; min-width: 750px;"/>
+    <ui:define name="content">
+        <div id="container">
+            <div class="stock-holder-box" style="order: 1">
+                <h:form>
+                    <!-- Each buy/stop buy and sell/stop sell correlates to their own element in an array. In this
+                    manner, the Javascript setTimeout() can be started by any start button, but only if every element
+                     is false does the clearTimeout() get called. -->
+                    <p:commandButton value="Start Buy" action="#{stockBean.startBuy(1)}" onstart="startTimer(1, 0)"/>
+                    <p:commandButton value="Stop Buy" action="#{stockBean.stopBuy(1)}"
+                                     onstart="startTimer(0, 0)"/>
+                    <p:commandButton value="Start Sell" action="#{stockBean.startSell(1)}"
+                                     onstart="startTimer(1, 3)"/>
+                    <p:commandButton value="Stop Sell" action="#{stockBean.stopSell(1)}"
+                                     onstart="startTimer(0, 3)"/>
+                    <div class="transaction">
+                        <p:panelGrid id="stock-holder-1">
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:outputLabel value="#{stockBean.stockholders.get(0).name}"
+                                                   style="font-weight: bold"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Stock"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="#{stockBean.stockId}"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Buy(+) / Sell(-)"/>
+                                </p:column>
+                                <p:column>
+                                    <!-- The last transaction is coming for the database. Therefore, a value may be
+                                    present here even though a button has not yet been pressed. To prevent that, this
+                                     field will not contain a value unless the transaction status field contains a
+                                     value. The transaction status is stored in a local object as apposed to the
+                                     database. -->
+                                    <p:outputLabel
+                                            value="#{stockBean.TASKS.get(0).TRANSACTION.getTransactionStatus(stockBean.stockId) eq null ? ' ' :
+                                            stockBean.stockholders.get(0).getLastTransactions(stockBean.stockId).qty}"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Shares Owned"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel
+                                            value="#{stockBean.stockholders.get(0).getSharesOwned(stockBean.stockId)}"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Transaction Status"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel
+                                            value="#{stockBean.TASKS.get(0).TRANSACTION.getTransactionStatus(stockBean.stockId)}"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:outputLabel
+                                            value="#{stockBean.TASKS.get(0).TRANSACTION.getTransactionMessage(stockBean.stockholders.get(0).name, stockBean.stockId)}"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    </div>
+                </h:form>
+            </div>
+            <div class="stock-holder-box" style="order: 2">
+                <h:form>
+                    <p:commandButton value="Start Buy" action="#{stockBean.startBuy(2)}" onstart="startTimer(1, 1)"/>
+                    <p:commandButton value="Stop Buy" action="#{stockBean.stopBuy(2)}" onstart="startTimer(0, 1)"/>
+                    <p:commandButton value="Start Sell" action="#{stockBean.startSell(2)}"
+                                     onstart="startTimer(1, 4)"/>
+                    <p:commandButton value="Stop Sell" action="#{stockBean.stopSell(2)}"
+                                     onstart="startTimer(0, 4)"/>
+                    <div class="transaction">
+                        <p:panelGrid id="stock-holder-2">
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:outputLabel value="#{stockBean.stockholders.get(1).name}"
+                                                   style="font-weight: bold"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Stock"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="#{stockBean.stockId}"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Buy(+) / Sell(-)"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel
+                                            value="#{stockBean.TASKS.get(1).TRANSACTION.getTransactionStatus(stockBean.stockId) eq null ? ' ' :
+                                            stockBean.stockholders.get(1).getLastTransactions(stockBean.stockId).qty}"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Shares Owned"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel
+                                            value="#{stockBean.stockholders.get(1).getSharesOwned(stockBean.stockId)}"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Transaction Status"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel
+                                            value="#{stockBean.TASKS.get(1).TRANSACTION.getTransactionStatus(stockBean.stockId)}"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:outputLabel
+                                            value="#{stockBean.TASKS.get(1).TRANSACTION.getTransactionMessage(stockBean.stockholders.get(1).name, stockBean.stockId)}"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    </div>
+                </h:form>
+            </div>
+            <div class="stock-holder-box" style="order: 3">
+                <h:form>
+                    <p:commandButton value="Start Buy" action="#{stockBean.startBuy(3)}" onstart="startTimer(1, 2)"/>
+                    <p:commandButton value="Stop Buy" action="#{stockBean.stopBuy(3)}" onstart="startTimer(0, 2)"/>
+                    <p:commandButton value="Start Sell" action="#{stockBean.startSell(3)}"
+                                     onstart="startTimer(1, 5)"/>
+                    <p:commandButton value="Stop Sell" action="#{stockBean.stopSell(3)}"
+                                     onstart="startTimer(0, 5)"/>
+                    <div class="transaction">
+                        <p:panelGrid id="stock-holder-3">
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:outputLabel value="#{stockBean.stockholders.get(2).name}"
+                                                   style="font-weight: bold"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Stock"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="#{stockBean.stockId}"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Buy(+) / Sell(-)"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel
+                                            value="#{stockBean.TASKS.get(2).TRANSACTION.getTransactionStatus(stockBean.stockId) eq null ? ' ' :
+                                            stockBean.stockholders.get(2).getLastTransactions(stockBean.stockId).qty}"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Shares Owned"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel
+                                            value="#{stockBean.stockholders.get(2).getSharesOwned(stockBean.stockId)}"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Transaction Status"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel
+                                            value="#{stockBean.TASKS.get(2).TRANSACTION.getTransactionStatus(stockBean.stockId)}"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:outputLabel
+                                            value="#{stockBean.TASKS.get(2).TRANSACTION.getTransactionMessage(stockBean.stockholders.get(2).name, stockBean.stockId)}"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+
+    <ui:define name="footer">
+        <p>Copyright &#169; 2025
+            <a href="https://www.michaelcherrera.com">michaelcherrera.com</a>. All Rights Reserved.</p>
+    </ui:define>
+</ui:composition>

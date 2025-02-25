@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <h:outputStylesheet library="css" name="default.css"/>
+    <h:outputStylesheet library="css" name="layout.css"/>
+    <h:outputStylesheet library="css" name="#{headerSection eq false ? 'blank.css' : 'header.css'}"/>
+    <h:outputStylesheet library="css" name="#{title eq false ? 'blank.css' : 'title.css'}"/>
+    <h:outputStylesheet library="css" name="#{logo eq false ? 'blank.css' : 'logo.css'}"/>
+    <h:outputStylesheet library="css" name="#{loginsearch eq false ? 'blank.css' : 'login_and_search.css'}"/>
+    <h:outputStylesheet library="css" name="#{stocks_menu eq false ? 'blank.css' : 'stocks_menu.css'}"/>
+    <h:outputStylesheet library="css" name="#{left eq false ? 'blank.css' : 'left.css'}"/>
+    <h:outputStylesheet library="css" name="#{right eq false ? 'blank.css' : 'right.css'}"/>
+    <h:outputStylesheet library="css" name="#{content eq false ? 'blank.css' : 'content.css'}"/>
+    <h:outputStylesheet library="css" name="#{footer eq false ? 'blank.css' : 'footer.css'}"/>
+    <title>#{titleText}</title>
+    <ui:fragment rendered="#{empty head ? true : head}">
+        <ui:insert name="head"/>
+    </ui:fragment>
+</h:head>
+
+<h:body>
+    <ui:fragment rendered="#{empty extras ? true : extras}">
+        <ui:insert name="extras"/>
+    </ui:fragment>
+    <div id="wrapper">
+        <header>
+            <ui:fragment rendered="#{empty title ? true : title}">
+                <div id="title">
+                    <ui:insert name="title">
+                        <ui:include src="default/title-default.xhtml"/>
+                    </ui:insert>
+                </div>
+            </ui:fragment>
+            <ui:fragment rendered="#{empty top ? true : top}">
+                <ui:fragment rendered="#{empty logo ? true : logo}">
+                    <div id="logo">
+                        <ui:insert name="logo">
+                            <ui:include src="default/logo-default.xhtml"/>
+                        </ui:insert>
+                    </div>
+                </ui:fragment>
+                <ui:fragment rendered="#{empty tagline ? true : tagline}">
+                    <div id="tagline">
+                        <ui:insert name="tagline">
+                            <ui:include src="/templates/default/tagline-default.xhtml"/>
+                        </ui:insert>
+                    </div>
+                </ui:fragment>
+            </ui:fragment>
+            <ui:fragment rendered="#{empty loginsearch ? true : loginsearch}">
+                <div id="login_and_search">
+                    <ui:fragment rendered="#{empty login ? true : login}">
+                        <div id="login">
+                            <ui:insert name="login">
+                                <ui:include src="/templates/default/login-default.xhtml"/>
+                            </ui:insert>
+                        </div>
+                    </ui:fragment>
+                    <ui:fragment rendered="#{empty search ? true : search}">
+                        <div id="search">
+                            <ui:insert name="search">
+                                <ui:include src="/templates/default/search-default.xhtml"/>
+                            </ui:insert>
+                        </div>
+                    </ui:fragment>
+                </div>
+            </ui:fragment>
+            <ui:fragment rendered="#{empty stocks_menu ? true : stocks_menu}">
+                <div id="stocks_menu">
+                    <ui:insert name="stocks_menu">
+                        <ui:include src="default/stocks-menu-default.xhtml"/>
+                    </ui:insert>
+                </div>
+            </ui:fragment>
+        </header>
+        <main>
+            <ui:fragment rendered="#{empty left ? true : left}">
+                <div id="left" style="#{empty leftWidth ? 'width: fit-content;' : leftWidth}">
+                    <ui:insert name="left">
+                        <ui:include src="default/left-default.xhtml"/>
+                    </ui:insert>
+                </div>
+            </ui:fragment>
+            <ui:fragment rendered="#{empty content ? true : content}">
+                <div id="content" style="#{empty contentWidth ? 'width: fit-content;' : contentWidth}">
+                    <ui:insert name="content">
+                        <ui:include src="default/content-default.xhtml"/>
+                    </ui:insert>
+                </div>
+            </ui:fragment>
+            <ui:fragment rendered="#{empty right ? true : right}">
+                <div id="right" style="#{empty rightWidth ? 'width: fit-content;' : rightWidth}">
+                    <ui:insert name="right">
+                        <ui:include src="default/right-default.xhtml"/>
+                    </ui:insert>
+                </div>
+            </ui:fragment>
+        </main>
+        <footer>
+            <ui:fragment rendered="#{empty footer ? true : footer}">
+                <div id="footer">
+                    <ui:insert name="footer">
+                        <ui:include src="default/footer.xhtml"/>
+                    </ui:insert>
+                </div>
+            </ui:fragment>
+        </footer>
+    </div>
+</h:body>
+
+</html>

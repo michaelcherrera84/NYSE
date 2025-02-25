@@ -1,0 +1,40 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="jakarta.faces.facelets">
+
+    <menu>
+        <h:form>
+            <li><p:commandButton value="AMC" actionListener='#{stockBean.setStockId("AMC")}'
+                                 action="#{stockBean.setStock()}" onsuccess="clearTimeout(timer)"/>
+            </li>
+            <li><p:commandButton value="AMCR" actionListener='#{stockBean.setStockId("AMCR")}'
+                                 action="#{stockBean.setStock()}" onsuccess="clearTimeout(timer)"/>
+            </li>
+            <li><p:commandButton value="BABA" actionListener='#{stockBean.setStockId("BABA")}'
+                                 action="#{stockBean.setStock()}" onsuccess="clearTimeout(timer)"/>
+            </li>
+            <li><p:commandButton value="BAC" actionListener='#{stockBean.setStockId("BAC")}'
+                                 action="#{stockBean.setStock()}" onsuccess="clearTimeout(timer)"/>
+            </li>
+            <li><p:commandButton value="AAL" actionListener='#{stockBean.setStockId("AAL")}'
+                                 action="#{stockBean.setStock()}" onsuccess="clearTimeout(timer)"/>
+            </li>
+            <li><p:commandButton value="AADI" actionListener='#{stockBean.setStockId("AADI")}'
+                                 action="#{stockBean.setStock()}" onsuccess="clearTimeout(timer)"/>
+            </li>
+            <li><p:commandButton value="AOS" actionListener='#{stockBean.setStockId("AOS")}'
+                                 action="#{stockBean.setStock()}" onsuccess="clearTimeout(timer)"/>
+            </li>
+            <li><p:commandButton value="ATEN" actionListener='#{stockBean.setStockId("ATEN")}'
+                                 action="#{stockBean.setStock()}" onsuccess="clearTimeout(timer)"/>
+            </li>
+            <li><p:commandButton value="AAC" actionListener='#{stockBean.setStockId("AAC")}'
+                                 action="#{stockBean.setStock()}" onsuccess="clearTimeout(timer)"/>
+            </li>
+            <li><p:commandButton value="AIR" actionListener='#{stockBean.setStockId("AIR")}'
+                                 action="#{stockBean.setStock()}" onsuccess="clearTimeout(timer)"/>
+            </li>
+        </h:form>
+    </menu>
+</ui:composition>

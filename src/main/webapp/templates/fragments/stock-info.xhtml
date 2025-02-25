@@ -1,0 +1,56 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="jakarta.faces.facelets">
+
+    <h:form id="stock_info">
+        <p:panelGrid>
+            <p:row>
+                <p:column styleClass="center-text" colspan="2">
+                    <p:outputLabel value="#{stockBean.stock.companyName}" style="font-weight: bold"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <p:outputLabel value="Symbol"/>
+                </p:column>
+                <p:column>
+                    <p:outputLabel value="#{stockBean.stock.stockId}"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <p:outputLabel value="Current Price"/>
+                </p:column>
+                <p:column>
+                    <p:outputLabel value="#{stockBean.stock.formatCurrency(stockBean.stock.priceCurrent)}"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <p:outputLabel value="Previous Day's Closing"/>
+                </p:column>
+                <p:column>
+                    <p:outputLabel value="#{stockBean.stock.formatCurrency(stockBean.stock.priceClosing)}"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <p:outputLabel value="Available Shares"/>
+                </p:column>
+                <p:column>
+                    <p:outputLabel value="#{stockBean.stock.numberOfSharesAvailable}"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <p:outputLabel value="Shares Sold"/>
+                </p:column>
+                <p:column>
+                    <p:outputLabel value="#{stockBean.stock.numberOfSharesSold}"/>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+    </h:form>
+
+</ui:composition>

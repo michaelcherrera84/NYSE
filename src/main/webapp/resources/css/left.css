@@ -1,0 +1,9 @@
+#left {
+    overflow: auto;
+    align-content: center;
+    order: 1;
+    border: 2px solid black;
+    background-color: white;
+}
+
+#left .ui-panelgrid {margin: 50px auto}
