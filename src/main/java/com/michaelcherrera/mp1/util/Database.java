@@ -43,4 +43,13 @@ public class Database {
 
         connection.close();
     }
+
+    public static void main(String[] args) {
+        Connection connection = null;
+        try {
+            connection = connection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
