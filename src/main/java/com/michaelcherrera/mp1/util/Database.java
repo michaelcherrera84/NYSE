@@ -24,10 +24,10 @@ public class Database {
         // Load the Driver. This is required for the DriverManager to connect to the database.
         @SuppressWarnings("unused") Driver driver = new Driver();
         String username = "root";
-        String password = "root";
+        String password = "ServBay.dev";
         String ip = "localhost";
         String database = "nyse";
-        String url = "jdbc:mysql://" + ip + ":8889/" + database + "?allowPublicKeyRetrieval=true&useSSL=false";
+        String url = "jdbc:mysql://" + ip + ":3306/" + database + "?allowPublicKeyRetrieval=true&useSSL=false";
 
         return DriverManager.getConnection(url, username, password);
     }
